@@ -11,30 +11,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return AppBar(
-      leading: Builder(builder: (context) {
-        return IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-          icon: const Icon(Icons.menu),
-          style: Theme.of(context).iconButtonTheme.style,
-        );
-      }),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Text(
-        'BTCTURK',
+        "MY WALLET",
         style: textTheme.displayLarge,
       ),
-      actions: <Widget>[
-        Text(
-          'TRY/USDT 30',
-          style: textTheme.displaySmall,
-        ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage('assets/home/userprofileicon.jpg'),
-          ),
-        ),
+      actions: [
+        IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_active)),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.power_settings_new_outlined,
+              color: Theme.of(context).disabledColor,
+            )),
       ],
     );
   }
