@@ -25,16 +25,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: textTheme.displayLarge,
       ),
       actions: <Widget>[
-        Text(
-          'TRY/USDT 30',
-          style: textTheme.displaySmall,
-        ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage('assets/home/userprofileicon.jpg'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'TRY/USDT 30',
+            style: textTheme.displaySmall,
           ),
         ),
+   
       ],
     );
   }
