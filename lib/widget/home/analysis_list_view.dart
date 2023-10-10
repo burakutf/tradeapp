@@ -22,7 +22,7 @@ class AnalysisListView extends StatelessWidget {
               child: TabBar(
                 dividerColor: Colors.transparent,
                 labelColor: Colors.white,
-                unselectedLabelColor: Colors.lightGreen,
+                unselectedLabelColor: Theme.of(context).colorScheme.background,
                 indicatorColor: Theme.of(context).primaryColor,
                 tabs: const [
                   Tab(
@@ -228,7 +228,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: const Color(0xff19376D),
+                              color: themeData.secondaryHeaderColor,
                             ),
                             child: ListTile(
                               leading: CircleAvatar(

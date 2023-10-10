@@ -24,34 +24,32 @@ class _ProfileDetailState extends State<ProfileDetail> {
     userDataFuture = ApiService().getUserProfile();
   }
 
-  // void _updateProfile() async {
-  //   final updatedFields = <String, dynamic>{};
-  //   if (firstNameController.text.isNotEmpty) {
-  //     updatedFields['first_name'] = firstNameController.text;
-  //   }
-  //   if (lastNameController.text.isNotEmpty) {
-  //     updatedFields['last_name'] = lastNameController.text;
-  //   }
-  //   if (phoneController.text.isNotEmpty) {
-  //     updatedFields['phone'] = phoneController.text;
-  //   }
-
-  //   final updatedUserData = await ApiService().updateUserProfile(updatedFields);
-
-  //   setState(() {
-  //     firstNameController.text = updatedUserData.firstName;
-  //     lastNameController.text = updatedUserData.lastName;
-  //     phoneController.text = updatedUserData.phone ?? '';
-  //   });
-
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(content: Text('Profil güncellendi')),
-  //   );
-  // }
+  InputDecoration buildInputDecoration(
+      String labelText, TextStyle textStyle, ThemeData themeData) {
+    return InputDecoration(
+      labelText: labelText,
+      labelStyle: textStyle,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        borderSide: BorderSide(color: themeData.secondaryHeaderColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        borderSide: BorderSide(color: themeData.primaryColor),
+      ),
+      filled: true,
+      fillColor: themeData.scaffoldBackgroundColor,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.titleLarge!;
+    TextStyle textStyle = Theme.of(context).textTheme.displayLarge!;
+    ThemeData themeData = Theme.of(context);
+    TextStyle textStyleLarge = Theme.of(context).textTheme.titleMedium!;
+    TextStyle textStyleMedium = Theme.of(context).textTheme.displayLarge!;
+
+    TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -76,28 +74,107 @@ class _ProfileDetailState extends State<ProfileDetail> {
 
             return Column(
               children: [
-                TextField(
-                  controller: firstNameController,
-                  decoration:
-                      InputDecoration(labelText: 'Ad', labelStyle: textStyle),
-                  style: textStyle,
+                Container(
+                  margin: const EdgeInsets.all(
+                      16.0), // İhtiyaca göre kenar boşluğunu ayarlayın
+                  child: Stack(
+                    alignment: Alignment
+                        .center, // Stack içindeki elemanları merkeze hizala
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(16.0), // Resim için radius
+                        child: const Image(
+                          image: AssetImage("assets/home/profilegradient.jpg"),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment
+                            .center, // Column içindeki elemanları ortala
+                        children: [
+                          const CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                AssetImage('assets/home/userprofileicon.jpg'),
+                          ),
+                          ListTile(
+                            title: Text(
+                              userData.fullName,
+                              style: textStyleLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                            subtitle: Text(
+                              "Standart Üye",
+                              style: textStyleSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)),
+                          child: Container(
+                            color: themeData.secondaryHeaderColor,
+                            height: 32.0, // Çıkıntının yüksekliğini ayarlayın
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                TextField(
-                  controller: lastNameController,
-                  decoration: InputDecoration(
-                      labelText: 'Soyad', labelStyle: textStyle),
-                  style: textStyle,
-                ),
-                TextField(
-                  controller: phoneController,
-                  decoration: InputDecoration(
-                      labelText: 'Telefon', labelStyle: textStyle),
-                  style: textStyle,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Profil Güncelle"),
-                ),
+                Container(
+                  margin: const EdgeInsets.all(16.0),
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: themeData.secondaryHeaderColor,
+                    borderRadius:
+                        BorderRadius.circular(20.0), // Radius eklemek için
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          title: Text(
+                            "What is Lorem Ipsum?",
+                            style: textStyleMedium,
+                          ),
+                          subtitle: Text(
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                            style: textStyleSmall,
+                          ),
+                        ),
+                        RowWithSpaceBetween(
+                          icon: Icons.email,
+                          text: userData.email,
+                          textStyle: textStyle,
+                        ),
+                        RowWithSpaceBetween(
+                          icon: Icons.account_circle,
+                          text: userData.username,
+                          textStyle: textStyle,
+                        ),
+                        RowWithSpaceBetween(
+                          icon: Icons.phone,
+                          text: userData.phone ?? "Numara Yok",
+                          textStyle: textStyle,
+                        ),
+                        RowWithSpaceBetween(
+                          icon: Icons.person,
+                          text: userData.gender,
+                          textStyle: textStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               ],
             );
           }
@@ -112,5 +189,38 @@ class _ProfileDetailState extends State<ProfileDetail> {
     lastNameController.dispose();
     phoneController.dispose();
     super.dispose();
+  }
+}
+
+class RowWithSpaceBetween extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final TextStyle textStyle;
+
+  const RowWithSpaceBetween({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Icon(icon),
+              const SizedBox(width: 16.0),
+              Text(text,
+                  style: const TextStyle(color: Colors.white, fontSize: 16)),
+            ],
+          ),
+          const SizedBox(height: 8.0), // Her Row arasına boşluk ekler
+        ],
+      ),
+    );
   }
 }

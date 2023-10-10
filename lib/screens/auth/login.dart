@@ -13,7 +13,8 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   String? _errorMessage;
 
-  final _formKey = GlobalKey<FormState>(); // Form anahtarını oluşturun
+  final _formKey = GlobalKey<FormState>();
+
   void _login() async {
     final success = await ApiService().login(
       email: emailController.text,
@@ -37,24 +38,66 @@ class LoginPageState extends State<LoginPage> {
     });
   }
 
+  bool _obscureText = true;
+
+  void _toggleObscureText() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = Theme.of(context).primaryTextTheme.titleMedium!;
+    TextStyle textStyleMedium = Theme.of(context).textTheme.displayLarge!;
+    ThemeData themeData = Theme.of(context);
+    TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
 
     return Scaffold(
-      appBar: AppBar(title:  Text("Giriş Yap",style: Theme.of(context).textTheme.displayLarge,),),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                ListTile(
+                    title: Text(
+                      "Sign in to BtcTurk",
+                      style: textStyleMedium,
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 16.0, bottom: 10.0),
+                      child: InkWell(
+                          child: Row(
+                        children: [
+                          Text(
+                            "New user?",
+                            style: textStyleSmall,
+                          ),
+                          Text(
+                            " create account.",
+                            style: TextStyle(
+                                color: themeData.colorScheme.background),
+                          )
+                        ],
+                      )),
+                    )),
                 TextFormField(
                   controller: emailController,
+                  style: const TextStyle(color: Colors.white),
+                  cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
-                      labelStyle: textStyle, labelText: 'E-mail'),
+                    hintStyle: const TextStyle(
+                      color: Colors.white,
+                    ),
+                    labelText: "E-mail",
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'E-mail boş bırakılamaz';
@@ -67,9 +110,26 @@ class LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 20.0),
                 TextFormField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: _obscureText,
+                  style: textStyle,
+                  cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
-                      labelStyle: textStyle, labelText: 'Şifre'),
+                    hintStyle: const TextStyle(
+                      color: Colors.white,
+                    ),
+                    labelText: "Şifre",
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                        color: Colors.white,
+                      ),
+                      onPressed: _toggleObscureText,
+                    ),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Şifre boş bırakılamaz';
@@ -87,16 +147,44 @@ class LoginPageState extends State<LoginPage> {
                       fontSize: 16,
                     ),
                   ),
+                  const SizedBox(height: 10,),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Forgot You Password?",
+                    style: textStyle.copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor:
+                          Colors.white, // Alt çizginin rengini beyaz yapar
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20.0),
                 ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          return themeData.colorScheme.background;
+                        }
+                        
+                        return themeData
+                            .primaryColor; // Use the component's default.
+                      },
+                    ),
+                  ),
                   onPressed: () {
-                    
                     if (_formKey.currentState!.validate()) {
                       _login();
                     }
-                    
                   },
-                  child: const Text('Giriş Yap'),
+                  child: const SizedBox(
+                      width: 300,
+                      child: Center(
+                          child: Text(
+                        'Login',
+                        style: TextStyle(color: Colors.black),
+                      ))),
                 ),
               ],
             ),

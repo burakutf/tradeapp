@@ -15,16 +15,12 @@ class CustomBottomAppBar extends StatelessWidget {
           IconButton(
               onPressed: () {},
               icon: const Icon(Icons.stacked_line_chart_outlined)),
-          FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.upcoming),
-          ),
+       
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.zoom_out_rounded)),
+              onPressed: () {}, icon: const Icon(Icons.notification_add)),
           IconButton(
               
               onPressed: () {
-
                 Navigator.of(context).pushNamed("/profile");
               },
               icon: const Icon(Icons.person_2_outlined)),
