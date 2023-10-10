@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:tradeapp/models/crypto_data.dart';
+import 'package:tradeapp/screens/object_detail.dart';
 import 'package:tradeapp/services/api_services.dart';
 
 class AnalysisListView extends StatelessWidget {
@@ -231,6 +232,16 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                               color: themeData.secondaryHeaderColor,
                             ),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ObjectDetail(
+                                      cryptoData: cryptoData,
+                                    ),
+                                  ),
+                                );
+                              },
                               leading: CircleAvatar(
                                 radius: 20,
                                 backgroundColor: Colors.transparent,

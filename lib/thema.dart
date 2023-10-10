@@ -29,6 +29,7 @@ class AppThemes {
         color: Color(0xffEEEEEE),
         fontSize: 17,
         fontWeight: FontWeight.normal,
+        fontFamily: 'AROneSans'
       ),
       displayLarge: TextStyle(
         color: Color(0xffEEEEEE),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tradeapp/screens/home.dart';
 import 'package:tradeapp/services/api_services.dart';
 
 class LoginPage extends StatefulWidget {
@@ -54,6 +55,19 @@ class LoginPageState extends State<LoginPage> {
     TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
 
     return Scaffold(
+      appBar: AppBar(
+        
+        backgroundColor: themeData.scaffoldBackgroundColor,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) =>
+                    const HomePage(),
+                transitionDuration: const Duration(seconds: 0),
+              ));
+            },
+            icon: const Icon(Icons.chevron_left,size: 30,)),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -89,6 +103,12 @@ class LoginPageState extends State<LoginPage> {
                   style: const TextStyle(color: Colors.white),
                   cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+
+                      borderSide: BorderSide(
+                          color: themeData.primaryColor), // Border rengi
+                    ),
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
@@ -114,6 +134,12 @@ class LoginPageState extends State<LoginPage> {
                   style: textStyle,
                   cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+
+                      borderSide: BorderSide(
+                          color: themeData.primaryColor), // Border rengi
+                    ),
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
@@ -147,7 +173,9 @@ class LoginPageState extends State<LoginPage> {
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -167,7 +195,7 @@ class LoginPageState extends State<LoginPage> {
                         if (states.contains(MaterialState.pressed)) {
                           return themeData.colorScheme.background;
                         }
-                        
+
                         return themeData
                             .primaryColor; // Use the component's default.
                       },

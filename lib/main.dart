@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tradeapp/screens/auth/login.dart';
 import 'package:tradeapp/screens/home.dart';
-import 'package:tradeapp/screens/object_detail.dart';
-import 'package:tradeapp/screens/profile.dart';
 import 'package:tradeapp/services/auth_services.dart';
 import 'package:tradeapp/thema.dart';
 
@@ -27,12 +24,7 @@ class MyApp extends StatelessWidget {
             theme: AppThemes.appTheme,
             routes: {
               "/": (context) => const HomePage(),
-              "/login": (context) =>
-                  authService.authToken != null ? const HomePage() : const LoginPage(),
-              "/object_detail": (context) =>
-                  authService.authToken != null ? const ObjectDetail() : const LoginPage(),
-              "/profile": (context) =>
-                  authService.authToken != null ? const ProfileDetail() : const LoginPage(),
+       
             },
           );
         },

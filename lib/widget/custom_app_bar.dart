@@ -11,15 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return AppBar(
-      leading: Builder(builder: (context) {
-        return IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-          icon: const Icon(Icons.menu),
-          style: Theme.of(context).iconButtonTheme.style,
-        );
-      }),
+    
       title: Text(
         'BTCTURK',
         style: textTheme.displayLarge,
