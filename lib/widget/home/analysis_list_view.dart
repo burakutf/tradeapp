@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tradeapp/models/crypto_data.dart';
 import 'package:tradeapp/services/api_services.dart';
@@ -117,9 +118,10 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
     _timer.cancel(); // Timer'ı dispose edin
     super.dispose();
   }
-
+  String? _currentText;
   @override
   Widget build(BuildContext context) {
+    TextStyle textStyle2= Theme.of(context).textTheme.displaySmall!;
     TextStyle textStyle = Theme.of(context).primaryTextTheme.titleMedium!;
     ThemeData themeData = Theme.of(context);
     return Padding(
@@ -128,97 +130,158 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
         children: [
           // Zaman periyodu seçimi için bir DropdownButtonFormField ekleyin
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 60,
-                  width: 100,
-                  child: DropdownButtonFormField<String>(
-                    dropdownColor: themeData.scaffoldBackgroundColor,
-                    value: selectedTimePeriod,
-                    onChanged: (String? value) {
-                      setState(() {
-                        selectedTimePeriod = value ?? '1m';
-                      });
-                      _refreshData();
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color:
-                                themeData.secondaryHeaderColor), // Border rengi
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color:
-                                themeData.secondaryHeaderColor), // Border rengi
-                      ),
-                      filled: true, // Arkaplanı doldur
-                      fillColor:
-                          themeData.scaffoldBackgroundColor, // Arkaplan rengi
-                    ),
-                    isExpanded:
-                        true, // Dropdown penceresini tüm ekranı kaplayacak şekilde genişlet
-                    items: ['1m', '5m', '15m', '1h'].map((String period) {
-                      return DropdownMenuItem<String>(
-                        value: period,
-                        child: Center(
-                          child: Text(
-                            period,
-                            style: textStyle,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                // TODO search barı falan küçült
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: (value) {
-                        _refreshData(); // Her metin değiştiğinde verileri yeniden çek
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Arama',
-                        labelStyle: textStyle,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              20.0), // Yuvarlanmış kenarlar
-                          borderSide:
-                              BorderSide(color: themeData.secondaryHeaderColor),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              20.0), // Yuvarlanmış kenarlar
-                          borderSide: BorderSide(color: themeData.primaryColor),
-                        ),
-                        filled: true, // Arkaplanı doldur
-                        fillColor:
-                            themeData.scaffoldBackgroundColor, // Arkaplan rengi
-                      ),
-                      cursorColor: themeData.primaryColor,
-                      style: const TextStyle(
-                          color: Colors.white), // Girilen metnin rengi
-                    ),
-                  ),
-                ),
-              ],
+         
+          Row(
+           children: [
+
+             CupertinoSegmentedControl(
+               children: {
+                 "1m":Container(
+                   color: _currentText == "1m"
+                 ? Theme.of(context).primaryColor
+                 : Theme.of(context).scaffoldBackgroundColor,
+                 width: double.infinity,
+                 padding: EdgeInsets.all(8),
+                 child: Text("1m"),),
+                 "5m":Container(color: _currentText == "5m"
+                 ? Theme.of(context).primaryColor
+                 : Theme.of(context).scaffoldBackgroundColor,
+                 width: double.infinity,
+                 padding: EdgeInsets.all(8),
+                 child: Text("5m")),
+                 "15m":Container(color: _currentText == "15m"
+                 ? Theme.of(context).primaryColor
+                 : Theme.of(context).scaffoldBackgroundColor,
+                 width: double.infinity,
+                 padding: EdgeInsets.all(8),
+                 child: Text("15m")),
+                 "1h":Container(color: _currentText == "1h"
+                 ? Theme.of(context).primaryColor
+                 : Theme.of(context).scaffoldBackgroundColor,
+                 width: double.infinity,
+                 padding: EdgeInsets.all(8),
+                 child: Text("1h"))
+               },
+               onValueChanged: (String value) {
+                 setState(() {
+                   _currentText=value;
+                 });
+               },
+               ),
+               SizedBox(height: 50,),
+               _currentText != null 
+                 ? Text(_currentText!, style: TextStyle(fontSize: 50)
+                 ,)
+                 : Container()
+             
+             // SizedBox(
+               
+             //   height: 50,
+             //   width: 100,
+             //   child: DropdownButtonFormField<String>(
+                 
+             //     iconSize: 0.0,
+             //     dropdownColor: themeData.scaffoldBackgroundColor,
+             //     value: selectedTimePeriod,
+             //     onChanged: (String? value) {
+             //       setState(() {
+             //         selectedTimePeriod = value ?? '1m';
+             //       });
+             //       _refreshData();
+             //     },
+                 
+             //     decoration: InputDecoration(
+                   
+             //       focusedBorder: OutlineInputBorder(
+             //         borderSide: BorderSide(
+             //             color:
+             //                 themeData.secondaryHeaderColor), // Border rengi
+             //       ),
+             //       enabledBorder: OutlineInputBorder(
+             //         borderSide: BorderSide(
+             //             color:
+             //                 themeData.secondaryHeaderColor), // Border rengi
+             //       ),
+             //       filled: true, // Arkaplanı doldur
+             //       fillColor:
+             //           themeData.scaffoldBackgroundColor, // Arkaplan rengi
+             //     ),
+             //     isExpanded:
+             //         true, // Dropdown penceresini tüm ekranı kaplayacak şekilde genişlet
+             //     items: ['1m', '5m', '15m', '1h'].map((String period) {
+             //       return DropdownMenuItem<String>(
+                     
+             //         value: period,
+             //         child: Container(
+                       
+             //           color: Colors.red,
+             //           child: Center(
+                         
+             //             child: Text(
+                           
+             //               period,
+                           
+             //               style: textStyle,
+                           
+                           
+             //             ),
+             //           ),
+             //         ),
+             //       );
+             //     }).toList(),
+             //   ),
+             // ),
+             // // TODO search barı falan küçült
+             // Expanded(
+             //   child: Padding(
+             //     padding: const EdgeInsets.all(8.0),
+             //     child: Container(
+                   
+             //       child: TextField(
+                     
+             //         controller: searchController,
+             //         onChanged: (value) {
+             //           _refreshData(); // Her metin değiştiğinde verileri yeniden çek
+             //         },
+             //         decoration: InputDecoration(
+             //           labelText: 'Arama',
+             //           labelStyle: textStyle,
+             //           enabledBorder: OutlineInputBorder(
+             //             borderRadius: BorderRadius.circular(
+             //                 20.0), // Yuvarlanmış kenarlar
+             //             borderSide:
+             //                 BorderSide(color: themeData.secondaryHeaderColor),
+             //           ),
+             //           focusedBorder: OutlineInputBorder(
+             //             borderRadius: BorderRadius.circular(
+             //                 20.0), // Yuvarlanmış kenarlar
+             //             borderSide: BorderSide(color: themeData.primaryColor),
+             //           ),
+             //           filled: true, // Arkaplanı doldur
+             //           fillColor:
+             //               themeData.scaffoldBackgroundColor, // Arkaplan rengi
+             //         ),
+             //         cursorColor: themeData.primaryColor,
+             //         style: const TextStyle(
+             //             color: Colors.white), // Girilen metnin rengi
+             //       ),
+             //     ),
+             //   ),
+             // ),
+           ],
             ),
-          ),
 
           Expanded(
             child: RefreshIndicator(
+              
               onRefresh: _refreshData,
               child: FutureBuilder<List<CryptoData>>(
+                
                 future: futureCryptoData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
+                      
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         CryptoData cryptoData = snapshot.data![index];
@@ -226,6 +289,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
+                           
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: themeData.secondaryHeaderColor,
