@@ -1,6 +1,5 @@
 class UserData {
   final int id;
-  final String username;
   final String firstName;
   final String lastName;
   final String fullName;
@@ -11,11 +10,9 @@ class UserData {
   final String? phone; // Nullable alanlar için "?" ekledik
   final bool isSuperuser;
   final DateTime? birthDate; // Nullable alanlar için "?" ekledik
-  final String gender;
 
   UserData({
     required this.id,
-    required this.username,
     required this.firstName,
     required this.lastName,
     required this.fullName,
@@ -26,13 +23,11 @@ class UserData {
     this.phone,
     required this.isSuperuser,
     this.birthDate,
-    required this.gender,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
       id: json['id'],
-      username: json['username'],
       firstName: json['first_name'],
       lastName: json['last_name'],
       fullName: json['full_name'],
@@ -43,7 +38,6 @@ class UserData {
       phone: json['phone'],
       isSuperuser: json['is_superuser'],
       birthDate: json['birth_date'] != null ? DateTime.parse(json['birth_date']) : null,
-      gender: json['gender'],
     );
   }
 }

@@ -9,6 +9,10 @@ class CustomBottomAppBar extends StatelessWidget {
   const CustomBottomAppBar({
     super.key,
   });
+  Future<String?> getAuthToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('authToken');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +35,28 @@ class CustomBottomAppBar extends StatelessWidget {
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.notification_add)),
           IconButton(
-            onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              String? authToken = prefs.getString('authToken');
-
-              if (authToken != null && authToken.isNotEmpty) {
-                Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      const ProfileDetail(),
-                  transitionDuration: const Duration(seconds: 0),
-                ));
-              } else {
-                Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      const LoginPage(),
-                  transitionDuration: const Duration(seconds: 0),
-                ));
-              }
-            },
             icon: const Icon(Icons.person_2_outlined),
+            onPressed: () {
+              getAuthToken().then((authToken) {
+                if (authToken != null && authToken.isNotEmpty) {
+                  if (ModalRoute.of(context)?.isActive ?? false) {
+                    Navigator.of(context).pushReplacement(PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          const ProfileDetail(),
+                      transitionDuration: const Duration(seconds: 0),
+                    ));
+                  }
+                } else {
+                  if (ModalRoute.of(context)?.isActive ?? false) {
+                    Navigator.of(context).pushReplacement(PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          const LoginPage(),
+                      transitionDuration: const Duration(seconds: 0),
+                    ));
+                  }
+                }
+              });
+            },
           )
         ],
       ),

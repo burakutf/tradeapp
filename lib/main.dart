@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             theme: AppThemes.appTheme,
             routes: {
               "/": (context) => const HomePage(),
-       
+                        
             },
           );
         },

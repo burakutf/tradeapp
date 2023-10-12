@@ -71,10 +71,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
               );
             } else {
               final userData = snapshot.data![0];
-              firstNameController.text = userData.firstName;
-              lastNameController.text = userData.lastName;
-              phoneController.text = userData.phone ?? '';
-
+       
               return Column(
                 children: [
                   Container(
@@ -162,7 +159,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           ),
                           RowWithSpaceBetween(
                             icon: Icons.account_circle,
-                            text: userData.username,
+                            text: "eskiden username yeriydi :/",
                             textStyle: textStyle,
                           ),
                           RowWithSpaceBetween(
@@ -172,7 +169,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           ),
                           RowWithSpaceBetween(
                             icon: Icons.person,
-                            text: userData.gender,
+                            text: '${userData.dateJoined}',
                             textStyle: textStyle,
                           ),
                         ],

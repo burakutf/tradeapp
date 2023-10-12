@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tradeapp/screens/auth/forgot_password.dart';
+import 'package:tradeapp/screens/auth/register.dart';
+import 'package:tradeapp/screens/auth/verification_code.dart';
 import 'package:tradeapp/screens/home.dart';
 import 'package:tradeapp/services/api_services.dart';
 
@@ -17,20 +20,41 @@ class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   void _login() async {
-    final success = await ApiService().login(
+    final result = await ApiService().login(
       email: emailController.text,
       password: passwordController.text,
     );
 
-    if (success) {
+    if (result == 'success') {
+      // Başarılı giriş işlemi
       _navigateToHome();
-    } else {
-      _showErrorMessage('Giriş başarısız. Lütfen tekrar deneyin.');
     }
+    if (result == 'Your account is not active!') {
+      emailVerificationCode('send');
+      _navigateToEmailVerification();
+    } else {
+      // Giriş başarısız veya hata oldu, result içeriği hata mesajını içerebilir.
+      _showErrorMessage(result);
+    }
+  }
+
+  void emailVerificationCode(String? status) async {
+    await ApiService().emailVerificationCode(
+      email: emailController.text,
+      status: status,
+    );
   }
 
   void _navigateToHome() {
     Navigator.of(context).pushNamed("/");
+  }
+
+  void _navigateToEmailVerification() {
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+      pageBuilder: (context, animation1, animation2) =>
+          EmailVerificationPage(email: emailController.text),
+      transitionDuration: const Duration(seconds: 0),
+    ));
   }
 
   void _showErrorMessage(String message) {
@@ -56,7 +80,6 @@ class LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        
         backgroundColor: themeData.scaffoldBackgroundColor,
         leading: IconButton(
             onPressed: () {
@@ -66,7 +89,10 @@ class LoginPageState extends State<LoginPage> {
                 transitionDuration: const Duration(seconds: 0),
               ));
             },
-            icon: const Icon(Icons.chevron_left,size: 30,)),
+            icon: const Icon(
+              Icons.chevron_left,
+              size: 30,
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -90,10 +116,21 @@ class LoginPageState extends State<LoginPage> {
                             "New user?",
                             style: textStyleSmall,
                           ),
-                          Text(
-                            " create account.",
-                            style: TextStyle(
-                                color: themeData.colorScheme.background),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushReplacement(PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const RegisterPage(),
+                                transitionDuration: const Duration(seconds: 0),
+                              ));
+                            },
+                            child: Text(
+                              " create account.",
+                              style: TextStyle(
+                                  color: themeData.colorScheme.background),
+                            ),
                           )
                         ],
                       )),
@@ -178,12 +215,26 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    "Forgot You Password?",
-                    style: textStyle.copyWith(
-                      decoration: TextDecoration.underline,
-                      decorationColor:
-                          Colors.white, // Alt çizginin rengini beyaz yapar
+                  child: SizedBox(
+                    width: 200,
+                    child: GestureDetector(
+                      onTap: (){
+                           Navigator.of(context).pushReplacement(PageRouteBuilder(
+      pageBuilder: (context, animation1, animation2) =>
+          const ForgotPasswordPage(),
+      transitionDuration: const Duration(seconds: 0),
+    ));
+                      },
+                      child: Center(
+                        child: Text(
+                          "Forgot You Password?",
+                          style: textStyle.copyWith(
+                            decoration: TextDecoration.underline,
+                            decorationColor:
+                                Colors.white, // Alt çizginin rengini beyaz yapar
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
