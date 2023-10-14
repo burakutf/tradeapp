@@ -12,6 +12,7 @@ class ObjectDetail extends StatelessWidget {
     TextStyle textStyleMedium = Theme.of(context).textTheme.displayMedium!;
     TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
     ThemeData themeData = Theme.of(context);
+    TextStyle textStyle = Theme.of(context).primaryTextTheme.titleMedium!;
 
     return Scaffold(
       appBar: AppBar(
@@ -19,25 +20,25 @@ class ObjectDetail extends StatelessWidget {
           cryptoData.name,
           style: textStyleLarge,
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                final snackBar = SnackBar(
-                  content: Center(
-                      child: Text(
-                    '${cryptoData.name} Notification Created.',
-                    style: textStyleMedium,
-                  )),
-                  action: SnackBarAction(
-                    label: 'Done!', // Eylemin metni
-                    onPressed: () {},
-                  ),
-                );
+        actions: const [
+          // IconButton(
+          //     onPressed: () {
+          //       final snackBar = SnackBar(
+          //         content: Center(
+          //             child: Text(
+          //           '${cryptoData.name} Notification Created.',
+          //           style: textStyleMedium,
+          //         )),
+          //         action: SnackBarAction(
+          //           label: 'Done!', // Eylemin metni
+          //           onPressed: () {},
+          //         ),
+          //       );
 
-                // SnackBar'ı göstermek için ScaffoldMessenger kullanılır
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-              icon: const Icon(Icons.notification_add))
+          //       // SnackBar'ı göstermek için ScaffoldMessenger kullanılır
+          //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //     },
+          //     icon: const Icon(Icons.notification_add))
         ],
       ),
       body: Center(
@@ -88,40 +89,114 @@ class ObjectDetail extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      
                     ],
                   ),
                 ],
               ),
             ),
-          Container(
-                        margin: const EdgeInsets.all(16.0),
-                        height: 300,
-                        decoration: BoxDecoration(
-                          color: themeData.secondaryHeaderColor,
-                          borderRadius: BorderRadius.circular(
-                              20.0), // Radius eklemek için
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
-                                title: Text(
-                                  "What is Lorem Ipsum?",
-                                  style: textStyleMedium,
-                                ),
-                                subtitle: Text(
-                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                  style: textStyleSmall,
-                                ),
-                              ),
-                              
-                            ],
+            Container(
+              margin: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: themeData.secondaryHeaderColor,
+                borderRadius:
+                    BorderRadius.circular(20.0), // Radius eklemek için
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Text(
+                        "Endeks: ${cryptoData.exchange}",
+                        style: textStyleMedium,
+                      ),
+                     
+                      trailing: Text(
+                        "Bölge: ${cryptoData.screener}",
+                        style: textStyleMedium,
+                      ),
+                    ),
+                    ListTile(
+                    
+                      leading: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.transparent,
+                        child: ClipOval(
+                          child: Image(
+                            image: NetworkImage(
+                              cryptoData.image ??
+                                  "https://cdn-icons-png.flaticon.com/512/5968/5968260.png",
+                            ),
+                            fit: BoxFit
+                                .cover, // Resmi CircleAvatar'a sığdırmak için fit kullanın
                           ),
                         ),
                       ),
+                      title: Text(
+                        cryptoData.name,
+                        style: textStyle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        cryptoData.symbol,
+                        style: textStyle,
+                      ),
+                      trailing: SizedBox(
+                        width: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "${cryptoData.recommendation == "NEUTRAL" ? "NÖTR" : cryptoData.recommendation} ",
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: cryptoData.recommendation
+                                        .contains("BUY")
+                                    ? Colors.greenAccent
+                                    : cryptoData.recommendation
+                                            .contains("SELL")
+                                        ? Colors.redAccent
+                                        : Colors.grey,
+                              ),
+                              overflow: TextOverflow
+                                  .ellipsis, // Metni kesme (ellipsis) ekledik
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_up,
+                              color: Colors.greenAccent,
+                              size: 20, // Simge boyutunu küçülttük
+                            ),
+                            Text(
+                              "${cryptoData.buy} ",
+                              style: textStyle,
+                            ),
+                            const Icon(
+                              Icons.circle_outlined,
+                              color: Colors.grey,
+                              size: 15, // Simge boyutunu küçülttük
+                            ),
+                            Text(
+                              " ${cryptoData.neutral}",
+                              style: textStyle,
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.redAccent,
+                              size: 20, // Simge boyutunu küçülttük
+                            ),
+                            Text(
+                              "${cryptoData.sell}",
+                              style: textStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

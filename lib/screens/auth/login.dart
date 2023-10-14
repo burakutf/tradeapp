@@ -104,7 +104,7 @@ class LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 ListTile(
                     title: Text(
-                      "Sign in to BtcTurk",
+                      "Sign in to TradingAnalyser",
                       style: textStyleMedium,
                     ),
                     subtitle: Padding(

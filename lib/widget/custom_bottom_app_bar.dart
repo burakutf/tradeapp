@@ -4,7 +4,23 @@ import 'package:tradeapp/screens/home.dart';
 import 'package:tradeapp/screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO animasyonu kaldırdın fakat kullanıcı bulunduğu sayfadayken tekrar istek atabiliyor
+class NoAnimationPageRoute<T> extends MaterialPageRoute<T> {
+  NoAnimationPageRoute({
+    required WidgetBuilder builder,
+    RouteSettings? settings,
+  }) : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return child;
+  }
+}
+
 class CustomBottomAppBar extends StatelessWidget {
   const CustomBottomAppBar({
     super.key,
@@ -21,45 +37,42 @@ class CustomBottomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      const HomePage(),
-                  transitionDuration: const Duration(seconds: 0),
-                ));
+              onPressed: () {    if (ModalRoute.of(context)?.settings.name != '/') {
+
+                Navigator.of(context).push(NoAnimationPageRoute(
+  builder: (_) => const HomePage(),
+  settings: const RouteSettings(name: '/'),
+));}
               },
               icon: const Icon(Icons.home)),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.stacked_line_chart_outlined)),
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.notification_add)),
-          IconButton(
-            icon: const Icon(Icons.person_2_outlined),
-            onPressed: () {
-              getAuthToken().then((authToken) {
-                if (authToken != null && authToken.isNotEmpty) {
-                  if (ModalRoute.of(context)?.isActive ?? false) {
-                    Navigator.of(context).pushReplacement(PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          const ProfileDetail(),
-                      transitionDuration: const Duration(seconds: 0),
-                    ));
-                  }
-                } else {
-                  if (ModalRoute.of(context)?.isActive ?? false) {
-                    Navigator.of(context).pushReplacement(PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          const LoginPage(),
-                      transitionDuration: const Duration(seconds: 0),
-                    ));
-                  }
-                }
-              });
-            },
-          )
+     
+        IconButton(
+  icon: const Icon(Icons.person_2_outlined),
+  onPressed: () {
+    if (ModalRoute.of(context)?.settings.name != '/profile') {
+      getAuthToken().then((authToken) {
+        if (authToken != null && authToken.isNotEmpty) {
+Navigator.of(context).push(NoAnimationPageRoute(
+  builder: (_) => const ProfileDetail(),
+  settings: const RouteSettings(name: '/profile'),
+));
+        } else {
+          if (ModalRoute.of(context)?.isActive ?? false) {
+            Navigator.of(context).pushReplacement(PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) =>
+                  const LoginPage(),
+              transitionDuration: const Duration(seconds: 0),
+            ));
+          }
+        }
+      });
+    }
+  },
+)
+
         ],
       ),
     );
   }
 }
+

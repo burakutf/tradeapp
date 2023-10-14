@@ -18,7 +18,7 @@ class AppThemes {
     ),
     iconTheme: const IconThemeData(color: Color(0xff00ADB5)),
     drawerTheme: const DrawerThemeData(
-        backgroundColor: Color(0xff393E46), shadowColor: Color(0xffEEEEEE)),
+        backgroundColor: Color.fromARGB(230, 57, 62, 70), shadowColor: Color(0xffEEEEEE)),
     textTheme: const TextTheme(
       displaySmall: TextStyle(
         color: Color(0xffEEEEEE),

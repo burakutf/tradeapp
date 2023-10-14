@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:tradeapp/models/crypto_data.dart';
+import 'package:tradeapp/models/notification.dart';
 import 'package:tradeapp/models/profile.dart';
 import 'package:tradeapp/services/auth_services.dart';
 
@@ -147,8 +148,75 @@ Future<Map<String, dynamic>?> forgotPasswordWithEmail({
     return null; // Hata durumunda işlem başarısız
   }
 }
+Future<Map<String, dynamic>?> createNotification({
+  String? objectId,
+  String? objectName,
+
+}) async {
+  final authToken = await AuthService().fetchAuthToken();
+
+  final Map<String, dynamic> data = {
+    'trade_object': objectId,
+    'send_type': 0,
+    'title':'$objectName Notification Created'
+
+  };
 
 
+  try {
+    Response response = await _dio.post(
+      "/user/notification/",
+      data: data,
+       options: Options(
+            headers: {
+              'Authorization': 'Token $authToken',
+            },
+          ),
+    );
+    if (response.statusCode == 200) {
+      return {'message': 'Create your notification'};
+    } else {
+      final errorResponse = response.data[0];
+      return {'error': '$errorResponse'};
+   
+    }
+  } catch (e) {
+    return null; // Hata durumunda işlem başarısız
+  }
+}
+Future<Map<String, dynamic>?> updatePassword({
+  String? oldPassword,
+  String? newPassword,
+}) async {
+  final authToken = await AuthService().fetchAuthToken();
+
+  final Map<String, dynamic> data = {
+    'old_password': oldPassword,
+    'new_password':newPassword
+  };
+
+
+  try {
+    Response response = await _dio.put(
+      "/update-password/",
+      data: data,
+       options: Options(
+            headers: {
+              'Authorization': 'Token $authToken',
+            },
+          ),
+    );
+    if (response.statusCode == 200) {
+      return {'message': 'Changed your password'};
+    } else {
+      final errorResponse = response.data[0];
+      return {'error': '$errorResponse'};
+   
+    }
+  } catch (e) {
+    return null; // Hata durumunda işlem başarısız
+  }
+}
   Future<List<CryptoData>> getCryptoData(
       {String? searchTerm, String? timePeriod, String? screener}) async {
     try {
@@ -199,7 +267,29 @@ Future<Map<String, dynamic>?> forgotPasswordWithEmail({
       return []; // Hata olursa boş bir liste döndür
     }
   }
-
+  Future<List<NotificationModel>> userNotification() async {
+    try {
+      final authToken = await AuthService().fetchAuthToken();
+      if (authToken != null) {
+        Response response = await _dio.get(
+          "/user/notification",
+          options: Options(
+            headers: {
+              'Authorization': 'Token $authToken',
+            },
+          ),
+        );
+        return (response.data as List)
+            .map((item) => NotificationModel.fromJson(item))
+            .toList();
+      } else {
+        throw Exception(
+            "Auth token is null"); // Eğer authToken null ise bir hata fırlat
+      }
+    } catch (e) {
+      return []; // Hata olursa boş bir liste döndür
+    }
+  }
   Future<void> updateUserProfile(Map<String, dynamic> updatedFields) async {
     final authToken = await AuthService().fetchAuthToken();
     if (authToken != null) {

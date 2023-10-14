@@ -5,11 +5,17 @@ import 'package:tradeapp/models/crypto_data.dart';
 import 'package:tradeapp/screens/object_detail.dart';
 import 'package:tradeapp/services/api_services.dart';
 
-class AnalysisListView extends StatelessWidget {
+class AnalysisListView extends StatefulWidget {
   final String title;
 
   const AnalysisListView({Key? key, required this.title}) : super(key: key);
 
+  @override
+  State<AnalysisListView> createState() => _AnalysisListViewState();
+}
+
+class _AnalysisListViewState extends State<AnalysisListView> {
+  
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -29,13 +35,13 @@ class AnalysisListView extends StatelessWidget {
                   Tab(
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text("Kripto"),
+                      child: Text("Share"),
                     ),
                   ),
                   Tab(
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text("Hisse"),
+                      child: Text("Crypto"),
                     ),
                   ),
                 ],
@@ -44,10 +50,10 @@ class AnalysisListView extends StatelessWidget {
             const Expanded(
               child: TabBarView(
                 children: [
-                  AnalaysisListTab(screener: "crypto"),
                   AnalaysisListTab(
                     screener: "share",
                   ),
+                  AnalaysisListTab(screener: "crypto"),
                 ],
               ),
             ),
@@ -68,11 +74,14 @@ class AnalaysisListTab extends StatefulWidget {
   _AnalaysisListTabState createState() => _AnalaysisListTabState();
 }
 
-class _AnalaysisListTabState extends State<AnalaysisListTab> {
+class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepAliveClientMixin{
+    @override
+  bool get wantKeepAlive => true;
+
   Future<List<CryptoData>>? futureCryptoData;
-  final Duration refreshRate = const Duration(minutes: 1);
+  final Duration refreshRate = const Duration(minutes: 5);
   TextEditingController searchController = TextEditingController();
-  String selectedTimePeriod = '1m';
+  String selectedTimePeriod = '15m';
   late Timer _timer; // Timer nesnesini tanımlayın
 
   @override
@@ -121,14 +130,20 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
 
   @override
   Widget build(BuildContext context) {
+        super.build(context); // AutomaticKeepAliveClientMixin için gereklidir.
+
     TextStyle textStyle = Theme.of(context).primaryTextTheme.titleMedium!;
     ThemeData themeData = Theme.of(context);
+    Map<String, String> timePeriods = {
+      '15Minutes': '15m',
+      'Hourly': '1h',
+      'Daily': '1d',
+      'Weekly': '1W',
+    };
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          // Zaman periyodu seçimi için bir DropdownButtonFormField ekleyin
-
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -138,10 +153,13 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                   width: 100,
                   child: DropdownButtonFormField<String>(
                     dropdownColor: themeData.scaffoldBackgroundColor,
-                    value: selectedTimePeriod,
+                    value: timePeriods.entries
+                        .firstWhere(
+                            (entry) => entry.value == selectedTimePeriod)
+                        .key,
                     onChanged: (String? value) {
                       setState(() {
-                        selectedTimePeriod = value ?? '1m';
+                        selectedTimePeriod = timePeriods[value] ?? '15m';
                       });
                       _refreshData();
                     },
@@ -162,7 +180,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                     ),
                     isExpanded:
                         true, // Dropdown penceresini tüm ekranı kaplayacak şekilde genişlet
-                    items: ['1m', '5m', '15m', '1h'].map((String period) {
+                    items: timePeriods.keys.map((String period) {
                       return DropdownMenuItem<String>(
                         value: period,
                         child: Center(
@@ -175,7 +193,6 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                     }).toList(),
                   ),
                 ),
-                // TODO search barı falan küçült
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -185,7 +202,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                         _refreshData(); // Her metin değiştiğinde verileri yeniden çek
                       },
                       decoration: InputDecoration(
-                        labelText: 'Arama',
+                        labelText: 'Search',
                         labelStyle: textStyle,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
@@ -211,7 +228,6 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
               ],
             ),
           ),
-
           Expanded(
             child: RefreshIndicator(
               onRefresh: _refreshData,
@@ -219,106 +235,109 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> {
                 future: futureCryptoData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        CryptoData cryptoData = snapshot.data![index];
-
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: themeData.secondaryHeaderColor,
-                            ),
-                            child: ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ObjectDetail(
-                                      cryptoData: cryptoData,
-                                    ),
-                                  ),
-                                );
-                              },
-                              leading: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: Colors.transparent,
-                                child: ClipOval(
-                                  child: Image(
-                                    image: NetworkImage(
-                                      cryptoData.image ??
-                                          "https://cdn-icons-png.flaticon.com/512/5968/5968260.png",
-                                    ),
-                                    fit: BoxFit
-                                        .cover, // Resmi CircleAvatar'a sığdırmak için fit kullanın
-                                  ),
-                                ),
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom:36.0),
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          CryptoData cryptoData = snapshot.data![index];
+                    
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: themeData.secondaryHeaderColor,
                               ),
-                              title: Text(
-                                cryptoData.name,
-                                style: textStyle,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                cryptoData.symbol,
-                                style: textStyle,
-                              ),
-                              trailing: SizedBox(
-                                width: 200,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "${cryptoData.recommendation == "NEUTRAL" ? "NÖTR" : cryptoData.recommendation} ",
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: cryptoData.recommendation
-                                                .contains("BUY")
-                                            ? Colors.greenAccent
-                                            : cryptoData.recommendation
-                                                    .contains("SELL")
-                                                ? Colors.redAccent
-                                                : Colors.grey,
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ObjectDetail(
+                                        cryptoData: cryptoData,
                                       ),
-                                      overflow: TextOverflow
-                                          .ellipsis, // Metni kesme (ellipsis) ekledik
                                     ),
-                                    const Icon(
-                                      Icons.arrow_drop_up,
-                                      color: Colors.greenAccent,
-                                      size: 20, // Simge boyutunu küçülttük
+                                  );
+                                },
+                                leading: CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: Colors.transparent,
+                                  child: ClipOval(
+                                    child: Image(
+                                      image: NetworkImage(
+                                        cryptoData.image ??
+                                            "https://cdn-icons-png.flaticon.com/512/5968/5968260.png",
+                                      ),
+                                      fit: BoxFit
+                                          .cover, // Resmi CircleAvatar'a sığdırmak için fit kullanın
                                     ),
-                                    Text(
-                                      "${cryptoData.buy} ",
-                                      style: textStyle,
-                                    ),
-                                    const Icon(
-                                      Icons.circle_outlined,
-                                      color: Colors.grey,
-                                      size: 15, // Simge boyutunu küçülttük
-                                    ),
-                                    Text(
-                                      " ${cryptoData.neutral}",
-                                      style: textStyle,
-                                    ),
-                                    const Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Colors.redAccent,
-                                      size: 20, // Simge boyutunu küçülttük
-                                    ),
-                                    Text(
-                                      "${cryptoData.sell}",
-                                      style: textStyle,
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                title: Text(
+                                  cryptoData.name,
+                                  style: textStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                subtitle: Text(
+                                  cryptoData.symbol,
+                                  style: textStyle,
+                                ),
+                                trailing: SizedBox(
+                                  width: 200,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "${cryptoData.recommendation == "NEUTRAL" ? "NÖTR" : cryptoData.recommendation} ",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: cryptoData.recommendation
+                                                  .contains("BUY")
+                                              ? Colors.greenAccent
+                                              : cryptoData.recommendation
+                                                      .contains("SELL")
+                                                  ? Colors.redAccent
+                                                  : Colors.grey,
+                                        ),
+                                        overflow: TextOverflow
+                                            .ellipsis, // Metni kesme (ellipsis) ekledik
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_up,
+                                        color: Colors.greenAccent,
+                                        size: 20, // Simge boyutunu küçülttük
+                                      ),
+                                      Text(
+                                        "${cryptoData.buy} ",
+                                        style: textStyle,
+                                      ),
+                                      const Icon(
+                                        Icons.circle_outlined,
+                                        color: Colors.grey,
+                                        size: 15, // Simge boyutunu küçülttük
+                                      ),
+                                      Text(
+                                        " ${cryptoData.neutral}",
+                                        style: textStyle,
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.redAccent,
+                                        size: 20, // Simge boyutunu küçülttük
+                                      ),
+                                      Text(
+                                        "${cryptoData.sell}",
+                                        style: textStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     );
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
