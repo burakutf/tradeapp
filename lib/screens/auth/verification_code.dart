@@ -239,7 +239,7 @@ class EmailVerificationPageState extends State<EmailVerificationPage> {
                         width: 300,
                         child: Center(
                           child: Text(
-                            'Onayla',
+                            'Accept',
                             style: TextStyle(color: Colors.black),
                           ),
                         ),

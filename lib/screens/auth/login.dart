@@ -180,7 +180,7 @@ class LoginPageState extends State<LoginPage> {
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Şifre",
+                    labelText: "Password",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -195,9 +195,9 @@ class LoginPageState extends State<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Şifre boş bırakılamaz';
+                      return 'Password cannot be left blank';
                     } else if (value.length < 8) {
-                      return 'Şifre en az 8 karakter olmalıdır';
+                      return 'Password must be at least 8 characters';
                     }
                     return null;
                   },

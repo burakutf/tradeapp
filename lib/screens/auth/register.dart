@@ -140,7 +140,7 @@ class RegisterPageState extends State<RegisterPage> {
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
-                          labelText: "Ad",
+                          labelText: "First Name",
                           labelStyle: textStyle,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -170,7 +170,7 @@ class RegisterPageState extends State<RegisterPage> {
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
-                          labelText: "Soyad",
+                          labelText: "Surname",
                           labelStyle: textStyle,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -231,7 +231,7 @@ class RegisterPageState extends State<RegisterPage> {
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Şifre",
+                    labelText: "Password",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -248,9 +248,9 @@ class RegisterPageState extends State<RegisterPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Şifre boş bırakılamaz';
+                      return 'Password cannot be left blank';
                     } else if (value.length < 8) {
-                      return 'Şifre en az 8 karakter olmalıdır';
+                      return 'Password must be at least 8 characters';
                     }
                     return null;
                   },
@@ -272,7 +272,7 @@ class RegisterPageState extends State<RegisterPage> {
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Şifre Tekrar",
+                    labelText: "Password Reply",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -280,9 +280,9 @@ class RegisterPageState extends State<RegisterPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Şifre tekrarını boş bırakamazsınız';
+                      return 'You cannot leave the password repeat blank';
                     } else if (value != passwordController.text) {
-                      return 'Şifreler uyuşmuyor';
+                      return 'Passwords do not match';
                     }
                     return null;
                   },
@@ -330,11 +330,12 @@ class RegisterPageState extends State<RegisterPage> {
                 RichText(
                   text: TextSpan(
                     text: 'By signing up, I agree to ',
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12,color: Colors.white),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Terms of Service',
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 12,
                           decoration: TextDecoration.underline,
                         ),
@@ -347,6 +348,7 @@ class RegisterPageState extends State<RegisterPage> {
                       TextSpan(
                         text: 'Privacy Policy',
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 12,
                           decoration: TextDecoration.underline,
                         ),

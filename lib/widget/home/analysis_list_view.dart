@@ -15,7 +15,6 @@ class AnalysisListView extends StatefulWidget {
 }
 
 class _AnalysisListViewState extends State<AnalysisListView> {
-  
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -74,15 +73,15 @@ class AnalaysisListTab extends StatefulWidget {
   _AnalaysisListTabState createState() => _AnalaysisListTabState();
 }
 
-class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepAliveClientMixin{
-    @override
+class _AnalaysisListTabState extends State<AnalaysisListTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
   bool get wantKeepAlive => true;
 
   Future<List<CryptoData>>? futureCryptoData;
   final Duration refreshRate = const Duration(minutes: 5);
   TextEditingController searchController = TextEditingController();
   String selectedTimePeriod = '15m';
-  late Timer _timer; // Timer nesnesini tanımlayın
 
   @override
   void initState() {
@@ -92,24 +91,6 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepA
       timePeriod: selectedTimePeriod,
       screener: widget.screener,
     );
-
-    startPeriodicTimer();
-  }
-
-  void startPeriodicTimer() {
-    _timer = Timer.periodic(refreshRate, (Timer timer) {
-      if (mounted) {
-        // Mounted kontrolü ekleyin
-        setState(() {
-          final currentSelectedTimePeriod = selectedTimePeriod;
-          futureCryptoData = ApiService().getCryptoData(
-            searchTerm: searchController.text,
-            timePeriod: currentSelectedTimePeriod,
-            screener: widget.screener,
-          );
-        });
-      }
-    });
   }
 
   Future<void> _refreshData() async {
@@ -123,16 +104,12 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepA
   }
 
   @override
-  void dispose() {
-    _timer.cancel(); // Timer'ı dispose edin
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-        super.build(context); // AutomaticKeepAliveClientMixin için gereklidir.
+    super.build(context); // AutomaticKeepAliveClientMixin için gereklidir.
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
 
-    TextStyle textStyle = Theme.of(context).primaryTextTheme.titleMedium!;
+    TextStyle textStyle = Theme.of(context).textTheme.displaySmall!;
     ThemeData themeData = Theme.of(context);
     Map<String, String> timePeriods = {
       '15Minutes': '15m',
@@ -186,7 +163,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepA
                         child: Center(
                           child: Text(
                             period,
-                            style: textStyle,
+                            style: textStyle.copyWith(fontSize: 9),
                           ),
                         ),
                       );
@@ -236,12 +213,17 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepA
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Padding(
-                      padding: const EdgeInsets.only(bottom:36.0),
+                      padding: EdgeInsets.only(
+                          bottom: deviceHeight <= 660 ? deviceHeight / 4 : 36),
                       child: ListView.builder(
+                        physics: deviceHeight <= 760
+                            ? const BouncingScrollPhysics()
+                            : const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           CryptoData cryptoData = snapshot.data![index];
-                    
+
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -261,7 +243,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab> with AutomaticKeepA
                                   );
                                 },
                                 leading: CircleAvatar(
-                                  radius: 20,
+                                  radius: deviceWidth <= 410 ? 10 : 20,
                                   backgroundColor: Colors.transparent,
                                   child: ClipOval(
                                     child: Image(

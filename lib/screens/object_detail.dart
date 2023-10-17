@@ -12,7 +12,8 @@ class ObjectDetail extends StatelessWidget {
     TextStyle textStyleMedium = Theme.of(context).textTheme.displayMedium!;
     TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
     ThemeData themeData = Theme.of(context);
-    TextStyle textStyle = Theme.of(context).primaryTextTheme.titleMedium!;
+    TextStyle textStyle = Theme.of(context).textTheme.displaySmall!;
+    double deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -120,7 +121,7 @@ class ObjectDetail extends StatelessWidget {
                     ListTile(
                     
                       leading: CircleAvatar(
-                        radius: 20,
+                        radius: deviceWidth <= 410 ? 10 : 20,
                         backgroundColor: Colors.transparent,
                         child: ClipOval(
                           child: Image(
@@ -135,12 +136,12 @@ class ObjectDetail extends StatelessWidget {
                       ),
                       title: Text(
                         cryptoData.name,
-                        style: textStyle,
+                        style: textStyle.copyWith(fontSize: 11),
                         overflow: TextOverflow.ellipsis,
                       ),
                       subtitle: Text(
                         cryptoData.symbol,
-                        style: textStyle,
+                        style: textStyle.copyWith(fontSize: 11),
                       ),
                       trailing: SizedBox(
                         width: 200,

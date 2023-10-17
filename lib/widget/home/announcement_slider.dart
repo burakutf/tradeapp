@@ -6,10 +6,10 @@ class AnnouncementsSliderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> sliderItems = [
-      _buildSliderItem('assets/home/sliderbtc.jpg', context),
-      _buildSliderItem('assets/home/sliderchart.jpg', context),
-      _buildSliderItem('assets/home/sliderbtcdoor.jpg', context),
-      _buildSliderItem('assets/home/sliderbtcworld.jpg', context),
+            _buildSliderItem('assets/home/sliderphoto.jpeg', context),
+            _buildSliderItem('assets/home/sliderimage.jpg', context),
+            _buildSliderItem('assets/home/sliderimage1.jpg', context),
+
     ];
 
     return Padding(
@@ -28,16 +28,12 @@ class AnnouncementsSliderWidget extends StatelessWidget {
   }
 
   Widget _buildSliderItem(String imagePath, BuildContext context) {
-    final Color borderColor = Theme.of(context).secondaryHeaderColor; 
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: borderColor,
-          width: 2,
-        ),
+     
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),

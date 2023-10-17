@@ -305,7 +305,7 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                         width: 300,
                         child: Center(
                           child: Text(
-                            'Onayla',
+                            'Accept',
                             style: TextStyle(color: Colors.black),
                           ),
                         ),

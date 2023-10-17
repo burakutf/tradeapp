@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tradeapp/screens/auth/login.dart';
 import 'package:tradeapp/screens/auth/next_step_forgot_password.dart';
-import 'package:tradeapp/screens/auth/register.dart';
 import 'package:tradeapp/services/api_services.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -72,7 +72,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
           onPressed: () {
             Navigator.of(context).pushReplacement(PageRouteBuilder(
               pageBuilder: (context, animation1, animation2) =>
-                  const RegisterPage(),
+                  const LoginPage(),
               transitionDuration: const Duration(seconds: 0),
             ));
           },
@@ -127,9 +127,9 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'E-mail boş bırakılamaz';
+                      return 'E-mail cannot be left blank';
                     } else if (!value.contains('@')) {
-                      return 'Geçerli bir e-mail adresi girin';
+                      return 'Enter a valid email address';
                     }
                     return null;
                   },
