@@ -14,9 +14,12 @@ class AnalysisListView extends StatefulWidget {
   State<AnalysisListView> createState() => _AnalysisListViewState();
 }
 
-class _AnalysisListViewState extends State<AnalysisListView> {
+class _AnalysisListViewState extends State<AnalysisListView> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+        super.build(context);
     return SizedBox(
       height: 500,
       child: DefaultTabController(
@@ -85,7 +88,10 @@ class _AnalaysisListTabState extends State<AnalaysisListTab>
 
   @override
   void initState() {
-    super.initState();
+    super.initState();  if (!mounted) {
+    return;
+  }
+
     futureCryptoData = ApiService().getCryptoData(
       searchTerm: searchController.text,
       timePeriod: selectedTimePeriod,

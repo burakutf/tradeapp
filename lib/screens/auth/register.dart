@@ -67,6 +67,7 @@ class RegisterPageState extends State<RegisterPage> {
     TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: themeData.scaffoldBackgroundColor,
         leading: IconButton(

@@ -6,7 +6,6 @@ class AnnouncementsSliderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> sliderItems = [
-            _buildSliderItem('assets/home/sliderphoto.jpeg', context),
             _buildSliderItem('assets/home/sliderimage.jpg', context),
             _buildSliderItem('assets/home/sliderimage1.jpg', context),
 

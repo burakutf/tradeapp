@@ -148,7 +148,6 @@ class _ProfileDetailState extends State<ProfileDetail> {
     TextStyle textStyle = Theme.of(context).textTheme.displayLarge!;
     ThemeData themeData = Theme.of(context);
     TextStyle textStyleLarge = Theme.of(context).textTheme.titleMedium!;
-    TextStyle textStyleMedium = Theme.of(context).textTheme.displayLarge!;
 
     TextStyle textStyleSmall = Theme.of(context).textTheme.displaySmall!;
 
@@ -157,133 +156,126 @@ class _ProfileDetailState extends State<ProfileDetail> {
       bottomNavigationBar: const CustomBottomAppBar(),
       drawer: Drawer(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Column(
-                  // Column kullanarak alt alta sıralama
-                  children: [
-                    TextFormField(
-                      controller: oldPasswordController,
-                      obscureText: true,
-                      style: textStyle,
-                      cursorColor: Theme.of(context).primaryColor,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 20.0,
+            Padding(
+              padding: const EdgeInsets.only(top:64.0),
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                  child: Column(
+                    // Column kullanarak alt alta sıralama
+                    children: [
+                      TextFormField(
+                        controller: oldPasswordController,
+                        obscureText: true,
+                        style: textStyle,
+                        cursorColor: Theme.of(context).primaryColor,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 20.0,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                              color: themeData.primaryColor,
+                            ), // Border rengi
+                          ),
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                          labelText: "Old Password",
+                          labelStyle: textStyleSmall,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(
-                            color: themeData.primaryColor,
-                          ), // Border rengi
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        labelText: "Old Password",
-                        labelStyle: textStyleSmall,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password cannot be left blank';
+                          } else if (value.length < 8) {
+                            return 'Password must be at least 8 characters';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password cannot be left blank';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      style: textStyle,
-                      cursorColor: Theme.of(context).primaryColor,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 20.0,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(
-                            color: themeData.primaryColor,
-                          ), // Border rengi
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        labelText: "New Password",
-                        labelStyle: textStyleSmall,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                      const SizedBox(
+                        height: 10,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password cannot be left blank';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    if (_errorMessage != null)
-                      Text(
-                        _errorMessage!,
-                        style: TextStyle(
-                          color: errorColor,
-                          fontSize: 16,
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        style: textStyle,
+                        cursorColor: Theme.of(context).primaryColor,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 20.0,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(
+                              color: themeData.primaryColor,
+                            ), // Border rengi
+                          ),
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                          labelText: "New Password",
+                          labelStyle: textStyleSmall,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password cannot be left blank';
+                          } else if (value.length < 8) {
+                            return 'Password must be at least 8 characters';
+                          }
+                          return null;
+                        },
                       ),
-                    ListTile(
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          updatePassword();
-                        }
-                      },
-                      leading: const Icon(
-                        Icons.change_circle,
-                        color: Colors.greenAccent,
+                      const SizedBox(
+                        height: 10,
                       ),
-                      title: const SizedBox(
-                        height: 30,
-                        width: 130,
-                        child: Center(
-                          child: Text(
-                            "Change Password",
-                            style: TextStyle(color: Colors.greenAccent),
+                      if (_errorMessage != null)
+                        Text(
+                          _errorMessage!,
+                          style: TextStyle(
+                            color: errorColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ListTile(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            updatePassword();
+                          }
+                        },
+                        leading: const Icon(
+                          Icons.change_circle,
+                          color: Colors.greenAccent,
+                        ),
+                        title: const SizedBox(
+                          height: 30,
+                          width: 130,
+                          child: Center(
+                            child: Text(
+                              "Change Password",
+                              style: TextStyle(color: Colors.greenAccent),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(
-                Icons.policy_outlined,
-                color: Colors.white,
-              ),
-              title: const Center(
-                child:
-                    Text("Terms of use", style: TextStyle(color: Colors.white)),
-              ),
-            ),
+  
             Column(
               children: [
                 ListTile(
@@ -436,16 +428,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ListTile(
-                              title: Text(
-                                "What is Lorem Ipsum?",
-                                style: textStyleMedium,
-                              ),
-                              subtitle: Text(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                style: textStyleSmall,
-                              ),
-                            ),
+                          
                             RowWithSpaceBetween(
                               icon: Icons.email,
                               text: userData.email,
