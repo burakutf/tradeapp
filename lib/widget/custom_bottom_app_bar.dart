@@ -33,44 +33,46 @@ class CustomBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
+      height: 60,
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+                onPressed: () {
+                  if (ModalRoute.of(context)?.settings.name != '/') {
+                    Navigator.of(context).push(NoAnimationPageRoute(
+                      builder: (_) => const HomePage(),
+                      settings: const RouteSettings(name: '/'),
+                    ));
+                  }
+                },
+                icon: const Icon(Icons.home)),
+            IconButton(
+              icon: const Icon(Icons.person_2_outlined),
               onPressed: () {
-                if (ModalRoute.of(context)?.settings.name != '/') {
-                  Navigator.of(context).push(NoAnimationPageRoute(
-                    builder: (_) => const HomePage(),
-                    settings: const RouteSettings(name: '/'),
-                  ));
+                if (ModalRoute.of(context)?.settings.name != '/profile') {
+                  getAuthToken().then((authToken) {
+                    if (authToken != null && authToken.isNotEmpty) {
+                      Navigator.of(context).push(NoAnimationPageRoute(
+                        builder: (_) => const ProfileDetail(),
+                        settings: const RouteSettings(name: '/profile'),
+                      ));
+                    } else {
+                      if (ModalRoute.of(context)?.isActive ?? false) {
+                        Navigator.of(context).pushReplacement(PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              const LoginPage(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ));
+                      }
+                    }
+                  });
                 }
               },
-              icon: const Icon(Icons.home)),
-          IconButton(
-            icon: const Icon(Icons.person_2_outlined),
-            onPressed: () {
-              if (ModalRoute.of(context)?.settings.name != '/profile') {
-                getAuthToken().then((authToken) {
-                  if (authToken != null && authToken.isNotEmpty) {
-                    Navigator.of(context).push(NoAnimationPageRoute(
-                      builder: (_) => const ProfileDetail(),
-                      settings: const RouteSettings(name: '/profile'),
-                    ));
-                  } else {
-                    if (ModalRoute.of(context)?.isActive ?? false) {
-                      Navigator.of(context).pushReplacement(PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            const LoginPage(),
-                        transitionDuration: const Duration(seconds: 0),
-                      ));
-                    }
-                  }
-                });
-              }
-            },
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

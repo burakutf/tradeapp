@@ -153,10 +153,10 @@ class ObjectDetail extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 10,
                                 color: cryptoData.recommendation
-                                        .contains("BUY")
+                                        .contains("AL")
                                     ? Colors.greenAccent
                                     : cryptoData.recommendation
-                                            .contains("SELL")
+                                            .contains("SAT")
                                         ? Colors.redAccent
                                         : Colors.grey,
                               ),

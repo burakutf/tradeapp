@@ -129,14 +129,14 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
               children: <Widget>[
                 ListTile(
                   title: Text(
-                    "One last step to register",
+                    "Giriş yapabilmeniz için son bir adım.",
                     style: textStyleMedium,
                   ),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 16.0, bottom: 10.0),
                     child: InkWell(
                       child: Text(
-                        "Enter the code sent to ${widget.email} email",
+                        "${widget.email} email gelen doğrulama kodunu giriniz.",
                         style: textStyleSmall,
                       ),
                     ),
@@ -156,7 +156,7 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Verification Code",
+                    labelText: "Doğrulama Kodu",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -184,7 +184,7 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Password",
+                    labelText: "Şifre",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -225,7 +225,7 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Password Again",
+                    labelText: "Şifre Tekrar",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -258,7 +258,7 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                       final snackBar = SnackBar(
                         content: Center(
                             child: Text(
-                          'Code sent',
+                          'Kod gönderildi',
                           style: textStyle,
                         )),
                       );
@@ -268,13 +268,13 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                       forgotPasswordWithEmail('send');
                     },
                     child: Text(
-                      'Resend Code',
+                      'Kod gönder',
                       style: TextStyle(color: themeData.primaryColor),
                     ),
                   ),
                 if (_remainingSeconds > 0)
                   Text(
-                    'Remaining time: $_remainingSeconds seconds',
+                    'Kalan Süre: $_remainingSeconds',
                     style: TextStyle(
                       color: themeData.primaryColor,
                       fontSize: 16,
@@ -305,7 +305,7 @@ class ForgotPasswordNextStepPageState extends State<ForgotPasswordNextStepPage> 
                         width: 300,
                         child: Center(
                           child: Text(
-                            'Accept',
+                            'Onayla',
                             style: TextStyle(color: Colors.black),
                           ),
                         ),

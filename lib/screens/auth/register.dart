@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tradeapp/screens/auth/login.dart';
 import 'package:tradeapp/screens/auth/verification_code.dart';
@@ -93,7 +92,7 @@ class RegisterPageState extends State<RegisterPage> {
               children: <Widget>[
                 ListTile(
                     title: Text(
-                      "Get started absolutely free",
+                      "Şimdi ücretsiz deneyin",
                       style: textStyleMedium,
                     ),
                     subtitle: Padding(
@@ -102,7 +101,7 @@ class RegisterPageState extends State<RegisterPage> {
                           child: Row(
                         children: [
                           Text(
-                            "Already have an account?",
+                            "Zaten bir hesabınız varmı?",
                             style: textStyleSmall,
                           ),
                           InkWell(
@@ -116,7 +115,7 @@ class RegisterPageState extends State<RegisterPage> {
                               ));
                             },
                             child: Text(
-                              " Sign in.",
+                              " Giriş yap.",
                               style: TextStyle(
                                   color: themeData.colorScheme.background),
                             ),
@@ -141,7 +140,7 @@ class RegisterPageState extends State<RegisterPage> {
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
-                          labelText: "First Name",
+                          labelText: "Ad",
                           labelStyle: textStyle,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -171,7 +170,7 @@ class RegisterPageState extends State<RegisterPage> {
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
-                          labelText: "Surname",
+                          labelText: "Soyad",
                           labelStyle: textStyle,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -232,7 +231,7 @@ class RegisterPageState extends State<RegisterPage> {
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Password",
+                    labelText: "Şifre",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -273,7 +272,7 @@ class RegisterPageState extends State<RegisterPage> {
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Password Reply",
+                    labelText: "Şifre Tekrar",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -322,44 +321,10 @@ class RegisterPageState extends State<RegisterPage> {
                     width: 300,
                     child: Center(
                       child: Text(
-                        'Register',
+                        'Kaydol',
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: 'By signing up, I agree to ',
-                    style: const TextStyle(fontSize: 12,color: Colors.white),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Terms of Service',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushNamed(context, '/terms_of_service');
-                          },
-                      ),
-                      const TextSpan(text: ' and '),
-                      TextSpan(
-                        text: 'Privacy Policy',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushNamed(context, '/privacy_policy');
-                          },
-                      ),
-                      const TextSpan(text: '.'),
-                    ],
                   ),
                 ),
               ],

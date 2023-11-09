@@ -26,30 +26,34 @@ class _AnalysisListViewState extends State<AnalysisListView> with AutomaticKeepA
         length: 2,
         child: Column(
           children: [
-            Container(
-              decoration: const BoxDecoration(border: Border()),
-              child: TabBar(
-                dividerColor: Colors.transparent,
-                labelColor: Colors.white,
-                unselectedLabelColor: Theme.of(context).colorScheme.background,
-                indicatorColor: Theme.of(context).primaryColor,
-                tabs: const [
-                  Tab(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text("Share"),
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(border: Border()),
+                child: TabBar(
+                  dividerColor: Colors.transparent,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Theme.of(context).colorScheme.background,
+                  indicatorColor: Theme.of(context).primaryColor,
+                  tabs: const [
+                    Tab(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("Hisse"),
+                      ),
                     ),
-                  ),
-                  Tab(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text("Crypto"),
+                    Tab(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text("Kripto"),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const Expanded(
+              flex: 9,
               child: TabBarView(
                 children: [
                   AnalaysisListTab(
@@ -118,13 +122,13 @@ class _AnalaysisListTabState extends State<AnalaysisListTab>
     TextStyle textStyle = Theme.of(context).textTheme.displaySmall!;
     ThemeData themeData = Theme.of(context);
     Map<String, String> timePeriods = {
-      '15Minutes': '15m',
-      'Hourly': '1h',
-      'Daily': '1d',
-      'Weekly': '1W',
+      '15Dakika': '15m',
+      'Saatlik': '1h',
+      'Günlük': '1d',
+      'Haftalık': '1W',
     };
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left:8.0,right: 8.0,top: 8.0),
       child: Column(
         children: [
           Padding(
@@ -185,7 +189,7 @@ class _AnalaysisListTabState extends State<AnalaysisListTab>
                         _refreshData(); // Her metin değiştiğinde verileri yeniden çek
                       },
                       decoration: InputDecoration(
-                        labelText: 'Search',
+                        labelText: 'Arama',
                         labelStyle: textStyle,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
@@ -281,10 +285,10 @@ class _AnalaysisListTabState extends State<AnalaysisListTab>
                                         style: TextStyle(
                                           fontSize: 10,
                                           color: cryptoData.recommendation
-                                                  .contains("BUY")
+                                                  .contains("AL")
                                               ? Colors.greenAccent
                                               : cryptoData.recommendation
-                                                      .contains("SELL")
+                                                      .contains("SAT")
                                                   ? Colors.redAccent
                                                   : Colors.grey,
                                         ),

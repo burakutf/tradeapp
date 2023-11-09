@@ -92,14 +92,14 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
               children: <Widget>[
                 ListTile(
                   title: Text(
-                    "Send verification code",
+                    "Doğrulama kodu gönder",
                     style: textStyleMedium,
                   ),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 16.0, bottom: 10.0),
                     child: InkWell(
                       child: Text(
-                        "One last step to change your password",
+                        "Şifrenizi değiştirmeye son bir adım.",
                         style: textStyleSmall,
                       ),
                     ),
@@ -127,9 +127,9 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'E-mail cannot be left blank';
+                      return 'E-mail boş bırakılamaz';
                     } else if (!value.contains('@')) {
-                      return 'Enter a valid email address';
+                      return 'Geçerli bir email giriniz';
                     }
                     return null;
                   },
@@ -168,7 +168,7 @@ class ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         width: 300,
                         child: Center(
                           child: Text(
-                            'Send Code',
+                            'Gönder',
                             style: TextStyle(color: Colors.black),
                           ),
                         ),

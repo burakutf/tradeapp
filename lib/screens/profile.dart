@@ -110,7 +110,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
           actions: <Widget>[
             TextButton(
               child: const Text(
-                'Cancel',
+                'İptal',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
@@ -119,7 +119,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
             ),
             TextButton(
               child: const Text(
-                'OK',
+                'Tamam',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
@@ -186,7 +186,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
-                          labelText: "Old Password",
+                          labelText: "Eski şifre",
                           labelStyle: textStyleSmall,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -223,7 +223,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
-                          labelText: "New Password",
+                          labelText: "Yeni şifre",
                           labelStyle: textStyleSmall,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
@@ -264,7 +264,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           width: 130,
                           child: Center(
                             child: Text(
-                              "Change Password",
+                              "Şifre güncelle",
                               style: TextStyle(color: Colors.greenAccent),
                             ),
                           ),
@@ -298,7 +298,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                     width: 100,
                     child: Center(
                       child: Text(
-                        "Logout",
+                        "Çıkış yap",
                         style: TextStyle(color: Colors.redAccent),
                       ),
                     ),
@@ -310,8 +310,8 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 ),
                 ListTile(
                   onTap: () {
-                    _showDeleteConfirmationDialog(context, 'Delete Account',
-                        'Are you sure you want to delete your account?');
+                    _showDeleteConfirmationDialog(context, 'Hesabını sil',
+                        'Hesabınızı silmek istediğinizden emin misiniz?');
                   },
                   leading: const Icon(
                     Icons.delete,
@@ -319,7 +319,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                   ),
                   title: const Center(
                     child: Text(
-                      "Delete Account",
+                      "Hesabını sil",
                       style: TextStyle(color: Colors.redAccent),
                     ),
                   ),
@@ -389,21 +389,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                               ),
                             ],
                           ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20)),
-                              child: Container(
-                                color: themeData.secondaryHeaderColor,
-                                height:
-                                    32.0, // Çıkıntının yüksekliğini ayarlayın
-                              ),
-                            ),
-                          ),
+                      
                           Positioned(
                               top: 10,
                               right: 10,

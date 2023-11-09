@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Text(
-                  "Notification",
+                  "Bildirimler",
                   style: textTheme.displayMedium,
                 ),
                 const Icon(
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: const SizedBox(),
           title: Text(
-            'Trading Analyser',
+            'Borsa-Kripto Analiz',
             style: textTheme.displayLarge,
           ),
           actions: <Widget>[

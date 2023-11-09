@@ -104,7 +104,7 @@ class LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 ListTile(
                     title: Text(
-                      "Sign in to TradingAnalyser",
+                      "Giriş Yap BorsaAnaliz",
                       style: textStyleMedium,
                     ),
                     subtitle: Padding(
@@ -113,7 +113,7 @@ class LoginPageState extends State<LoginPage> {
                           child: Row(
                         children: [
                           Text(
-                            "New user?",
+                            "Yeni Kullanıcı?",
                             style: textStyleSmall,
                           ),
                           InkWell(
@@ -127,7 +127,7 @@ class LoginPageState extends State<LoginPage> {
                               ));
                             },
                             child: Text(
-                              " create account.",
+                              " hesap oluştur.",
                               style: TextStyle(
                                   color: themeData.colorScheme.background),
                             ),
@@ -180,7 +180,7 @@ class LoginPageState extends State<LoginPage> {
                     hintStyle: const TextStyle(
                       color: Colors.white,
                     ),
-                    labelText: "Password",
+                    labelText: "Şifre",
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -227,7 +227,7 @@ class LoginPageState extends State<LoginPage> {
                       },
                       child: Center(
                         child: Text(
-                          "Forgot You Password?",
+                          "Şifremi unuttum",
                           style: textStyle.copyWith(
                             decoration: TextDecoration.underline,
                             decorationColor:
@@ -261,7 +261,7 @@ class LoginPageState extends State<LoginPage> {
                       width: 300,
                       child: Center(
                           child: Text(
-                        'Login',
+                        'Giriş',
                         style: TextStyle(color: Colors.black),
                       ))),
                 ),
